@@ -30,3 +30,19 @@ Online Result System project using Node JS and Express JS
 1.Node Mailer
 1. Angular JS 8
 1. Bootstrap 4
+
+# Testing Tools
+1. Postman for Node JS REST API test
+1. Firebug for Angular JS
+
+# Tools
+1. Visual Studio Code
+1. SQLYog 
+1. ArgoUML
+1. ER Win
+1. Git
+
+# Databases and their Clients 
+1. MySQL 5.x  -  SQL Yog
+
+See Wiki for more details
