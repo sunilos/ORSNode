@@ -1,0 +1,118 @@
+<div class="container">
+    <div>
+        <H2>Role</H2>
+    </div>
+
+    <div class="alert alert-danger" ng-show="searchForm.show">
+        {{searchForm.message}}
+    </div>
+
+    <div class="form-group row">
+        <div class="col-lg-3">
+            <input class="form-control" type="text" ng-model="searchForm.name" placeholder="Name">
+        </div>
+        <div class="col-lg-3">
+            <input class="form-control" type="text" ng-model="searchForm.description" placeholder="Description">
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary" ng-click="search()">Search
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="offset-lg-4">
+            <button class="btn btn-success " data-target="#update" data-toggle="modal" ng-click="display()">Add
+                <i class="fas fa-plus-circle"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm table-bordered table-hover table-responsive-sm">
+                <thead class="thead-dark">
+                    <th scope="row">#</th>
+                    <th scope="row">Role
+                    </th>
+                    <th scope="row">Description
+                    </th>
+                    <th scope="row">Action</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="data in list">
+                        <td>{{$index+1}}</td>
+                        <td>{{data.name}}</td>
+                        <td>{{data.description}}</td>
+                        <td>
+                            <button type="button" ng-click="display(data.id)" data-target="#update" data-toggle="modal" class="btn btn-primary">
+                                <i class="fas fa-edit">
+                                </i>
+                            </button>
+                            <button type="button" ng-click="delete(data.id)" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal fade" id="update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title ">Role Information</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <form class="form" name="collegeForm" ng-submit="submit()">
+
+                        <div class="alert alert-danger" ng-show="form.show && !form.success">
+                            {{form.message}}
+                        </div>
+                        <div class="alert alert-success" ng-show="form.show && form.success">
+                            {{form.message}}
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Name * </label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" ng-model="form.name" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-lg-3 form-control-label">Description * </label>
+                                <div class="col-lg-9">
+                                    <input class="form-control" type="text" ng-model="form.description" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <button type="submit" class="btn btn-primary form-control">Save
+                                        <span class="fas fa-paper-plane"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-lg-1">
+            <button class="btn btn-primary" ng-click="previous()">
+                Previous
+            </button>
+        </div>
+        <div class="offset-lg-10">
+            <button class="btn btn-primary" ng-click="next()">
+                Next
+            </button>
+        </div>
+    </div>
+</div>

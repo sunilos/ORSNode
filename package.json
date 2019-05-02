@@ -1,0 +1,29 @@
+{
+  "name": "ORSNode",
+  "version": "1.0.0",
+  "main": "ORSApp.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "express-fileupload": "^0.4.0",
+    "express-session": "^1.15.6",
+    "formidable": "^1.2.1",
+    "mongodb": "^3.0.10",
+    "mysql": "^2.15.0",
+    "nodemailer": "^4.6.7"
+  },
+  "devDependencies": {
+    
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Sunil Sahu",
+  "license": "ISC",
+  "description": "SunilOS ORS Application"
+}
