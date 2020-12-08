@@ -1,5 +1,5 @@
 # ORSNode ( Project 5 )
-Online Result System project using Node JS and Express JS
+Online Result System project using Node JS and Express JS. It providing server side rest end points. 
 
 # Modules 
 1. User Management
