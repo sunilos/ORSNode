@@ -9,17 +9,15 @@ const studentRoute = require('./controller/studentController');
 
 const app = express();
 
-// Custom CORS middleware to handle any origin with credentials
 app.use((req, res, next) => {
     const origin = req.headers.origin;
-    res.header('Access-Control-Allow-Origin', origin); // Dynamically set allowed origin
+    res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
-    // Handle preflight request (OPTIONS method)
     if (req.method === 'OPTIONS') {
-        return res.sendStatus(200); // Send OK status for preflight
+        return res.sendStatus(200);
     }
 
     next();
@@ -28,10 +26,10 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use(session({
-    secret: 'your_secret_key', // Change this to a strong secret
-    resave: false, // Do not save session if unmodified
-    saveUninitialized: true, // Save uninitialized session
-    cookie: { secure: false } // Set to true if using HTTPS
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
 }));
 
 app.use('/api/user', userRoute);

@@ -1,10 +1,8 @@
-// userController.js
 
 const express = require('express');
 const router = express.Router();
 const userService = require('../models/userModel');
 
-// Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
     if (req.session.user) {
         next();
@@ -13,7 +11,6 @@ const isAuthenticated = (req, res, next) => {
     }
 };
 
-// Authentication route (public)
 router.post('/authenticate', (req, res) => {
     userService.authenticateUser(req.body.loginId, req.body.password)
         .then(user => {
@@ -27,7 +24,6 @@ router.post('/authenticate', (req, res) => {
         });
 });
 
-// Logout route (public)
 router.post('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
@@ -49,10 +45,8 @@ router.post('/signup', (req, res) => {
         });
 });
 
-// Apply middleware to all routes below
 router.use(isAuthenticated);
 
-// Add a new user in MongoDB
 router.post('/adduser', (req, res) => {
     userService.addUser(req.body)
         .then(result => res.status(201).json(result))
@@ -63,7 +57,6 @@ router.post('/adduser', (req, res) => {
         });
 });
 
-// Search users by firstName with pagination
 router.get('/searchuser', async (req, res) => {
     const query = {};
     if (req.query.firstName) {
@@ -76,18 +69,18 @@ router.get('/searchuser', async (req, res) => {
         query.loginId = new RegExp(req.query.loginId, 'i');
     }
 
-    const page = parseInt(req.query.page) || 1; // Default to page 1
-    const limit = parseInt(req.query.limit) || 5; // Default to 5 records per page
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
 
     try {
-        const users = await userService.searchUsers(query, page, limit); // Get users based on query
-        const totalCount = await userService.countUsers(query); // Get total count of users matching query
+        const users = await userService.searchUsers(query, page, limit);
+        const totalCount = await userService.countUsers(query);
 
         res.json({
             users,
-            totalCount, // Return total count for pagination
+            totalCount,
             page,
-            totalPages: Math.ceil(totalCount / limit), // Calculate total pages
+            totalPages: Math.ceil(totalCount / limit),
         });
     } catch (error) {
         console.error(error);

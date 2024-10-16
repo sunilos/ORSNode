@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const marksheetService = require('../models/marksheetModel');
 
-// Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
     if (req.session.user) {
         next();
@@ -11,10 +10,8 @@ const isAuthenticated = (req, res, next) => {
     }
 };
 
-// Apply middleware to all routes below
-router.use(isAuthenticated);
+outer.use(isAuthenticated);
 
-// Add a new marksheet in MongoDB
 router.post('/addMarksheet', (req, res) => {
     marksheetService.addMarksheet(req.body)
         .then(result => res.status(201).json(result))
@@ -24,7 +21,7 @@ router.post('/addMarksheet', (req, res) => {
         });
 });
 
-// Update a marksheet
+
 router.post('/updateMarksheet/:id', (req, res) => {
     marksheetService.updateMarksheet(req.params.id, req.body)
         .then(result => res.json(result))
@@ -34,7 +31,6 @@ router.post('/updateMarksheet/:id', (req, res) => {
         });
 });
 
-// Delete a marksheet
 router.post('/deleteMarksheet/:id', (req, res) => {
     marksheetService.deleteMarksheet(req.params.id)
         .then(result => res.json(result))
@@ -44,7 +40,6 @@ router.post('/deleteMarksheet/:id', (req, res) => {
         });
 });
 
-// Get a marksheet by ID
 router.get('/getMarksheet/:id', (req, res) => {
     marksheetService.getMarksheetById(req.params.id)
         .then(result => res.json(result))
@@ -54,37 +49,36 @@ router.get('/getMarksheet/:id', (req, res) => {
         });
 });
 
-// Search marksheets with pagination
 router.get('/searchMarksheets', async (req, res) => {
     const nameQuery = req.query.name;
     const rollNoQuery = req.query.rollNo;
     let query = {};
 
     if (nameQuery) {
-        query.name = { $regex: nameQuery, $options: 'i' }; // Case-insensitive search for name
+        query.name = { $regex: nameQuery, $options: 'i' };
     }
 
     if (rollNoQuery) {
-        const rollNoNumber = Number(rollNoQuery); // Attempt to cast to number
+        const rollNoNumber = Number(rollNoQuery); r
         if (!isNaN(rollNoNumber)) {
-            query.rollNo = rollNoNumber; // Direct number comparison if it's a valid number
+            query.rollNo = rollNoNumber;
         } else {
-            query.rollNo = { $regex: rollNoQuery, $options: 'i' }; // Case-insensitive search if it's not a number
+            query.rollNo = { $regex: rollNoQuery, $options: 'i' };
         }
     }
 
-    const page = parseInt(req.query.page) || 1; // Default to page 1
-    const limit = parseInt(req.query.limit) || 5; // Default to 5 records per page
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
 
     try {
-        const marksheets = await marksheetService.searchMarksheets(query, page, limit); // Get marksheets based on query
-        const totalCount = await marksheetService.countMarksheets(query); // Get total count of marksheets matching query
+        const marksheets = await marksheetService.searchMarksheets(query, page, limit);
+        const totalCount = await marksheetService.countMarksheets(query);
 
         res.json({
             marksheets,
-            totalCount, // Return total count for pagination
+            totalCount,
             page,
-            totalPages: Math.ceil(totalCount / limit), // Calculate total pages
+            totalPages: Math.ceil(totalCount / limit),
         });
     } catch (error) {
         console.error('Error searching marksheets:', error);

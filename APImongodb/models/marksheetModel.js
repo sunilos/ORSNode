@@ -66,7 +66,6 @@ const findByRollNo = (rollNo) => {
         .catch(error => { throw new Error(error.message); });
 };
 
-// Count the total number of marksheets that match the query
 const countMarksheets = async (query) => {
     return await Marksheet.countDocuments(query);
 };

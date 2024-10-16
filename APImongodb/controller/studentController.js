@@ -1,10 +1,8 @@
-// studentController.js
 
 const express = require('express');
 const router = express.Router();
 const studentService = require('../models/studentModel');
 
-// Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
     if (req.session.user) {
         next();
@@ -13,10 +11,8 @@ const isAuthenticated = (req, res, next) => {
     }
 };
 
-// Apply middleware to all routes
 router.use(isAuthenticated);
 
-// Add a new student
 router.post('/addstudent', (req, res) => {
     studentService.addStudent(req.body)
         .then(result => res.status(201).json(result))
@@ -27,8 +23,7 @@ router.post('/addstudent', (req, res) => {
         });
 });
 
-// Search students by name
-// Search students by name
+
 router.get('/searchstudent', (req, res) => {
     const query = {};
     if (req.query.name) {
@@ -41,8 +36,8 @@ router.get('/searchstudent', (req, res) => {
         query.mobileNo = new RegExp(req.query.mobileNo, 'i');
     }
 
-    const page = parseInt(req.query.page) || 1; // Default to page 1
-    const limit = parseInt(req.query.limit) || 5; // Default to 5 records per page
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
 
     studentService.searchStudents(query, page, limit)
         .then(result => {
@@ -50,7 +45,7 @@ router.get('/searchstudent', (req, res) => {
                 students: result.students,
                 total: result.total,
                 page,
-                totalPages: Math.ceil(result.total / limit) // Calculate total pages
+                totalPages: Math.ceil(result.total / limit)
             });
         })
         .catch(error => {
@@ -71,8 +66,8 @@ router.get('/prelod', (req, res) => {
         query.mobileNo = new RegExp(req.query.mobileNo, 'i');
     }
 
-    const page = parseInt(req.query.page) || 1; // Default to page 1
-    const limit = parseInt(req.query.limit) || 500; // Default to 5 records per page
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 500;
 
     studentService.searchStudents(query, page, limit)
         .then(result => res.json(result))
@@ -82,7 +77,6 @@ router.get('/prelod', (req, res) => {
         });
 });
 
-// Delete a student by ID
 router.post('/deletestudent/:id', (req, res) => {
     studentService.deleteStudent(req.params.id)
         .then(result => res.json(result))
@@ -92,7 +86,6 @@ router.post('/deletestudent/:id', (req, res) => {
         });
 });
 
-// Update a student's information
 router.post('/updatestudent/:id', (req, res) => {
     studentService.updateStudent(req.params.id, req.body)
         .then(result => res.json(result))
@@ -102,7 +95,6 @@ router.post('/updatestudent/:id', (req, res) => {
         });
 });
 
-// Get a student by ID
 router.get('/getstudent/:id', (req, res) => {
     studentService.getStudentById(req.params.id)
         .then(result => res.json(result))
