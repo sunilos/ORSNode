@@ -10,7 +10,7 @@ const isAuthenticated = (req, res, next) => {
     }
 };
 
-outer.use(isAuthenticated);
+router.use(isAuthenticated);
 
 router.post('/addMarksheet', (req, res) => {
     marksheetService.addMarksheet(req.body)
