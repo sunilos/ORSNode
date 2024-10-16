@@ -1,7 +1,6 @@
-// services/userService.js
 const User = require('../bean/userBean');
-
 const addUser = (userData) => {
+
     const newUser = new User(userData);
     return newUser.save()
         .then(savedUser => ({ user: savedUser, message: 'Data added successfully' }))
@@ -9,7 +8,7 @@ const addUser = (userData) => {
 };
 
 const updateUser = (userId, updateData) => {
-    return User.findByIdAndUpdate(userId, updateData, { new: true })
+    return User.findByIdAndUpdate(userId, updateData)
         .then(updatedUser => {
             if (!updatedUser) throw new Error('User not found');
             return updatedUser;
@@ -35,20 +34,23 @@ const getUserById = (userId) => {
         .catch(error => { throw new Error(error.message); });
 };
 
-const searchUsers = (query) => {
-    console.log('in search routing');
-    return User.find(query)
-        .then(users => users)
-        .catch(error => { throw new Error(error.message); });
+const searchUsers = async (query, page, limit) => {
+    return await User.find(query)
+        .skip((page - 1) * limit)
+        .limit(limit);
 };
+
 
 const authenticateUser = (loginId, password) => {
     return User.findOne({ loginId, password })
         .then(user => {
             if (!user) throw new Error('Invalid credentials');
-            return { message: 'Authentication successful', user };
+            return user;
         })
         .catch(error => { throw new Error(error.message); });
+};
+const countUsers = async (query) => {
+    return await User.countDocuments(query);
 };
 
 module.exports = {
@@ -57,5 +59,6 @@ module.exports = {
     deleteUser,
     getUserById,
     searchUsers,
+    countUsers,
     authenticateUser
 };
