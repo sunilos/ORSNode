@@ -1,59 +1,83 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import UserList from './components/UserList';
+import { HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { environment } from './environment.ts';
 import UserForm from './components/UserForm';
+import UserList from './components/UserList';
+import LoginForm from './components/LoginForm';
+import MarksheetForm from './components/MarksheetForm';
+import MarksheetList from './components/MarksheetList';
+import MeritMarksheetList from './components/MeritMarksheetList';
+import SignUp from './components/SignUp';
+import StudentForm from './components/StudentForm';
+import StudentList from './components/StudentList';
+import Footer from './components/Footer.js';
+import Header from './components/Header.js';
+import Welcome from './components/Welcome.js';
 
 const App = () => {
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(null);
+  const apiUrl = environment.apiUrl;
 
-  const fetchUsers = () => {
-    fetch('http://localhost:5000/api/user/searchuser')
+  const handleLogout = () => {
+    fetch(`${apiUrl}/api/user/logout`, {
+      method: 'POST',
+    })
       .then(response => {
         if (response.ok) {
-          return response.json();
+          localStorage.removeItem('user');
+          setUser(null);
+        } else {
+          throw new Error('Logout failed');
         }
-        throw new Error('Network response was not ok.');
-      })
-      .then(data => {
-        setUsers(data);
       })
       .catch(error => {
-        console.error('Error fetching users:', error);
+        console.error('Error logging out:', error);
       });
   };
 
   useEffect(() => {
-    fetchUsers();
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setUser(JSON.parse(userData));
+    } else {
+      setUser(null);
+    }
   }, []);
 
   return (
     <Router>
       <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link className="navbar-brand" to="/">User Management</Link>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link className="nav-link" to="/">Home</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/adduser">Add User</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/UserList">User List</Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
+        <Header user={user} handleLogout={handleLogout} />
+
         <Routes>
-          <Route path="/" element={<h2>Welcome to the User Management System</h2>} />
-          <Route path="/adduser" element={<UserForm fetchUsers={fetchUsers} />} />
-          <Route path="/UserList" element={<UserList users={users} />} />
+          <Route
+            path="/"
+            element={<LoginForm setAuth={(user) => { setUser(user); localStorage.setItem('user', JSON.stringify(user)); }} />}
+          />
+          {user ? (
+            <>
+              <Route path="/welcome" element={<Welcome />} />
+              <Route path="/adduser" element={user.role === 'admin' ? <UserForm /> : <Navigate to="/" />} />
+              <Route path="/UserList" element={user.role === 'admin' ? <UserList /> : <Navigate to="/" />} />
+              <Route path="/edituser/:id" element={user.role === 'admin' ? <UserForm /> : <Navigate to="/" />} />
+              <Route path="/addMarksheet" element={user.role === 'admin' ? <MarksheetForm /> : <Navigate to="/" />} />
+              <Route path="/MarksheetList" element={<MarksheetList />} />
+              <Route path="/editmarksheet/:id" element={user.role === 'admin' ? <MarksheetForm /> : <Navigate to="/" />} />
+              <Route path="/MeritMarksheetList" element={<MeritMarksheetList />} />
+              <Route path="/addStudent" element={<StudentForm />} />
+              <Route path="/studentList" element={<StudentList />} />
+              <Route path="/editstudent/:id" element={<StudentForm />} />
+            </>
+          ) : (
+            <>
+              <Route path="/login" element={<LoginForm setAuth={(user) => { setUser(user); localStorage.setItem('user', JSON.stringify(user)); }} />} />
+              <Route path="/signUp" element={<SignUp />} />
+            </>
+          )}
+          <Route path="*" element={<Navigate to={user ? "/" : "/login"} />} />
         </Routes>
       </div>
+      <Footer />
     </Router>
   );
 };

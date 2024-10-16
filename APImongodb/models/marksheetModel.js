@@ -1,8 +1,15 @@
-const Marksheet = require('../models/marksheetModel');
+const Marksheet = require('../bean/marksheetBean');
 
 const addMarksheet = (marksheetData) => {
-    const newMarksheet = new Marksheet(marksheetData);
-    return newMarksheet.save()
+    return Marksheet.findOne({ rollNo: marksheetData.rollNo })
+        .then(existingRollNo => {
+            if (existingRollNo) {
+                throw new Error('RollNo already exists');
+            }
+
+            const newMarksheet = new Marksheet(marksheetData);
+            return newMarksheet.save();
+        })
         .then(savedMarksheet => ({ marksheet: savedMarksheet, message: 'Data added successfully' }))
         .catch(error => { throw new Error(error.message); });
 };
@@ -34,24 +41,33 @@ const getMarksheetById = (marksheetId) => {
         .catch(error => { throw new Error(error.message); });
 };
 
-const getMeritList = () => {
-    return Marksheet.find()
-        .then(marksheets => {
-            if (!marksheets || marksheets.length === 0) throw new Error('No marksheets found');
-            // Calculate total marks and sort in descending order
-            marksheets.forEach(marksheet => {
-                marksheet.totalMarks = marksheet.physics + marksheet.chemistry + marksheet.maths;
-            });
-            marksheets.sort((a, b) => b.totalMarks - a.totalMarks);
-            return marksheets;
+const searchMarksheets = async (query, page, limit) => {
+    return await Marksheet.find(query)
+        .skip((page - 1) * limit)
+        .limit(limit);
+};
+
+const getMeritList = (limit = 10) => {
+    return Marksheet.find({
+        physics: { $gt: 60 },
+        chemistry: { $gt: 60 },
+        maths: { $gt: 60 }
+    }).sort({ totalMarks: -1 }).limit(limit)
+        .then(marksheets => marksheets)
+        .catch(error => { throw new Error(error.message); });
+};
+
+const findByRollNo = (rollNo) => {
+    return Marksheet.findOne({ rollNo })
+        .then(marksheet => {
+            if (!marksheet) throw new Error('Marksheet not found');
+            return marksheet;
         })
         .catch(error => { throw new Error(error.message); });
 };
 
-const searchMarksheets = (query) => {
-    return Marksheet.find(query)
-        .then(marksheets => marksheets)
-        .catch(error => { throw new Error(error.message); });
+const countMarksheets = async (query) => {
+    return await Marksheet.countDocuments(query);
 };
 
 module.exports = {
@@ -59,6 +75,8 @@ module.exports = {
     updateMarksheet,
     deleteMarksheet,
     getMarksheetById,
+    searchMarksheets,
+    countMarksheets,
     getMeritList,
-    searchMarksheets
+    findByRollNo
 };

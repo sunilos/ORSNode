@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const marksheetSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
     },
     rollNo: {
-        type: String,
+        type: Number,
         required: true,
     },
     physics: {
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     maths: {
         type: Number,
         required: true,
-    }
+    },
 });
 
-module.exports = mongoose.model('Marksheet', userSchema);
+module.exports = mongoose.model('Marksheet', marksheetSchema);
