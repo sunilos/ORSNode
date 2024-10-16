@@ -1,30 +1,19 @@
-/* .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-nav ul {
-  list-style-type: none;
+/* index.css */
+body,
+html {
+  margin: 0;
   padding: 0;
+  height: 100%;
 }
 
-nav ul li {
-  display: inline;
-  margin-right: 10px;
+#root {
+  background-image: url('https://wallpaper.forfun.com/fetch/62/624e27fde335d49e2dd3c6b75c6027a3.jpeg');
+  background-size: cover;
+  background-position: center;
+  height: 100%;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
-
-table, th, td {
-  border: 1px solid black;
-}
-
-th, td {
-  padding: 10px;
-  text-align: left;
-} */
