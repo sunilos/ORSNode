@@ -13,11 +13,10 @@ const MarksheetList = ({ user }) => {
   const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const itemsPerPage = 5; // Number of items per page
+  const itemsPerPage = 5;
 
   const apiUrl = environment.apiUrl;
 
-  // Fetch marksheets
   const fetchMarksheets = (query = {}, page = 1) => {
     const filteredQuery = new URLSearchParams();
     Object.keys(query).forEach(key => {
@@ -32,8 +31,8 @@ const MarksheetList = ({ user }) => {
         return response.json();
       })
       .then(data => {
-        setMarksheets(data.marksheets || []); // Ensure it's an array
-        setTotalPages(data.totalPages || 1); // Ensure totalPages is set
+        setMarksheets(data.marksheets || []);
+        setTotalPages(data.totalPages || 1);
         setNoResults(data.marksheets.length === 0);
       })
       .catch(error => {
@@ -42,11 +41,11 @@ const MarksheetList = ({ user }) => {
   };
 
   useEffect(() => {
-    fetchMarksheets({}, currentPage); // Fetch all marksheets on initial load
+    fetchMarksheets({}, currentPage);
   }, [currentPage]);
 
   const handleSearch = () => {
-    fetchMarksheets({ name: nameQuery, rollNo: rollNoQuery }, 1); // Reset to page 1 on search
+    fetchMarksheets({ name: nameQuery, rollNo: rollNoQuery }, 1);
   };
 
   const handleDeleteClick = (marksheetId) => {
@@ -57,16 +56,16 @@ const MarksheetList = ({ user }) => {
   const handleNext = () => {
     if (currentPage < totalPages) {
       const nextPage = currentPage + 1;
-      setCurrentPage(nextPage); // Increment the page state
-      fetchMarksheets({ name: nameQuery, rollNo: rollNoQuery }, nextPage); // Pass the updated page number
+      setCurrentPage(nextPage);
+      fetchMarksheets({ name: nameQuery, rollNo: rollNoQuery }, nextPage);
     }
   };
 
   const handlePrevious = () => {
     if (currentPage > 1) {
       const previousPage = currentPage - 1;
-      setCurrentPage(previousPage); // Decrement the page state
-      fetchMarksheets({ name: nameQuery, rollNo: rollNoQuery }, previousPage); // Pass the updated page number
+      setCurrentPage(previousPage);
+      fetchMarksheets({ name: nameQuery, rollNo: rollNoQuery }, previousPage);
     }
   };
 
@@ -78,7 +77,7 @@ const MarksheetList = ({ user }) => {
       })
         .then(response => {
           if (!response.ok) throw new Error('Network response was not ok.');
-          fetchMarksheets({}, currentPage); // Refresh the marksheet list
+          fetchMarksheets({}, currentPage);
         })
         .catch(error => {
           console.error('Error deleting marksheet:', error);
@@ -106,7 +105,7 @@ const MarksheetList = ({ user }) => {
   const handleResetClick = () => {
     setNameQuery('');
     setRollNoQuery('');
-    fetchMarksheets({}, currentPage); // Fetch all marksheets
+    fetchMarksheets({}, currentPage);
   };
 
   return (
@@ -121,8 +120,6 @@ const MarksheetList = ({ user }) => {
       }}
     >
       <h2 align="center">Marksheet List</h2>
-
-      {/* Search Fields */}
       <div style={{ textAlign: 'center', marginBottom: '20px' }}>
         <input
           type="text"

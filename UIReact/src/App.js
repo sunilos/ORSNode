@@ -15,7 +15,7 @@ import Header from './components/Header.js';
 import Welcome from './components/Welcome.js';
 
 const App = () => {
-  const [user, setUser] = useState(null); // Store user details
+  const [user, setUser] = useState(null);
   const apiUrl = environment.apiUrl;
 
   const handleLogout = () => {
@@ -47,7 +47,6 @@ const App = () => {
   return (
     <Router>
       <div>
-        {/* Use the new Header component */}
         <Header user={user} handleLogout={handleLogout} />
 
         <Routes>

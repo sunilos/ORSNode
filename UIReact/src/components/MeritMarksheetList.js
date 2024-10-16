@@ -35,8 +35,8 @@ const MeritMarksheetList = () => {
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
         backgroundSize: 'cover',
-        height: '100vh', // Full viewport height
-        paddingTop: '85px' // Adjust as needed for top padding
+        height: '100vh',
+        paddingTop: '85px'
       }}
     >
       <h1 align="center" style={{ color: 'black' }} > MeritMarksheet List</h1>

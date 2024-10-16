@@ -33,13 +33,13 @@ const StudentList = () => {
                 throw new Error('Network response was not ok.');
             })
             .then(data => {
-                setTotalPages(data.totalPages); // Set total pages from your API response
+                setTotalPages(data.totalPages);
                 if (data.students.length === 0) {
                     setRecordNotFound(true);
                 } else {
                     setRecordNotFound(false);
                 }
-                setStudents(data.students); // Assuming your API returns students in 'students' field
+                setStudents(data.students);
             })
             .catch(error => {
                 console.error('Error fetching students:', error);
@@ -47,8 +47,9 @@ const StudentList = () => {
     };
 
     useEffect(() => {
-        fetchStudents(searchQuery, currentPage);
-    }, [currentPage, searchQuery]);
+        // Only fetch students when the component mounts or currentPage changes
+        fetchStudents({}, currentPage);
+    }, [currentPage]);
 
     const handleDeleteClick = (studentId) => {
         setSelectedStudentId(studentId);
@@ -63,7 +64,7 @@ const StudentList = () => {
             })
                 .then(response => {
                     if (response.ok) {
-                        fetchStudents(searchQuery, currentPage); // Refresh the student list after deletion
+                        fetchStudents(searchQuery, currentPage);
                     } else {
                         throw new Error('Network response was not ok.');
                     }
@@ -84,13 +85,13 @@ const StudentList = () => {
     };
 
     const handleSearchClick = () => {
-        setCurrentPage(1); // Reset to the first page on search
-        fetchStudents(searchQuery, 1);
+        setCurrentPage(1); // Reset to the first page on new search
+        fetchStudents(searchQuery, 1); // Fetch students based on the search query
     };
 
     const handleResetClick = () => {
-        setSearchQuery({ name: '', subject: '', mobileNo: '' });
-        fetchStudents({}, 1); // Reset and fetch the first page
+        setSearchQuery({ name: '', subject: '', mobileNo: '' }); // Reset the search query
+        fetchStudents({}, 1); // Fetch all students
     };
 
     const handleNext = () => {
@@ -123,7 +124,7 @@ const StudentList = () => {
                     name="name"
                     placeholder="Search by Student name..."
                     value={searchQuery.name}
-                    onChange={handleSearchChange}
+                    onChange={handleSearchChange} // Handle input change
                     style={{ marginRight: '10px', padding: '3px' }}
                 />
                 <input
@@ -131,7 +132,7 @@ const StudentList = () => {
                     name="subject"
                     placeholder="Search by Subject..."
                     value={searchQuery.subject}
-                    onChange={handleSearchChange}
+                    onChange={handleSearchChange} // Handle input change
                     style={{ marginRight: '10px', padding: '3px' }}
                 />
                 <input
@@ -139,7 +140,7 @@ const StudentList = () => {
                     name="mobileNo"
                     placeholder="Search by Mobile Number..."
                     value={searchQuery.mobileNo}
-                    onChange={handleSearchChange}
+                    onChange={handleSearchChange} // Handle input change
                     style={{ marginRight: '10px', padding: '3px' }}
                 />
                 <button onClick={handleSearchClick} className="btn btn-success btn-sm" style={{ padding: '5px', marginRight: '10px' }}>

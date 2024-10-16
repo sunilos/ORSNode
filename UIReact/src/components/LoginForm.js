@@ -91,8 +91,8 @@ const LoginForm = ({ setAuth }) => {
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
         backgroundSize: 'cover',
-        height: '100vh', // Full viewport height
-        paddingTop: '100px' // Adjust as needed for top padding
+        height: '100vh',
+        paddingTop: '100px'
       }}
     >
 

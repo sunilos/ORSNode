@@ -9,7 +9,6 @@ const Header = ({ user, handleLogout }) => {
                 background: 'linear-gradient(to bottom right, grey, black)',
             }}
         >
-            {/* Left-side image */}
             <Link className="navbar-brand" to="/">
                 <img
                     src="https://www.raystec.com/assets/img/rays/customLogoOuterglow.png"
@@ -32,7 +31,6 @@ const Header = ({ user, handleLogout }) => {
                 <ul className="navbar-nav flex-grow-1">
                     {user ? (
                         <>
-                            {/* User Management Dropdown */}
                             <li className="nav-item dropdown">
                                 <button
                                     className="nav-link dropdown-toggle btn"
@@ -58,7 +56,6 @@ const Header = ({ user, handleLogout }) => {
                                 </div>
                             </li>
 
-                            {/* Marksheet Management Dropdown */}
                             <li className="nav-item dropdown">
                                 <button
                                     className="nav-link dropdown-toggle btn"
@@ -87,7 +84,6 @@ const Header = ({ user, handleLogout }) => {
                                 </div>
                             </li>
 
-                            {/* Student Management Dropdown */}
                             <li className="nav-item dropdown">
                                 <button
                                     className="nav-link dropdown-toggle btn"
@@ -115,9 +111,7 @@ const Header = ({ user, handleLogout }) => {
                         </>
                     ) : (
                         <div style={{ color: 'white' }} className="navbar-nav ms-auto">
-
                             Hii, Guest
-
                         </div>
                     )}
                 </ul>

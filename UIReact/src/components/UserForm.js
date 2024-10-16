@@ -169,7 +169,7 @@ const UserForm = () => {
           <div className="col-md-4">
             <div className="card" style={{ background: 'linear-gradient(to right, #00c6ff, #0072ff)' }}>
               <div className="card-body">
-                <h2 className="card-title text-center">{id ? 'Edit User' : 'Add User'}</h2>
+                <h2 className="card-title text-center">{id ? 'Update User' : 'Add User'}</h2>
                 {showMessage && message && (
                   <div className="alert alert-info alert-dismissible fade show" role="alert">
                     {message}
@@ -284,6 +284,7 @@ const UserForm = () => {
                     <button type="button" onClick={handleSubmit} className="btn btn-primary">
                       Submit
                     </button>
+
                   </div>
                 </form>
               </div>

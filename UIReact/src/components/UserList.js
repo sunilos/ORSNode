@@ -9,7 +9,7 @@ const UserList = () => {
   const [searchQuery, setSearchQuery] = useState({ firstName: '', lastName: '', loginId: '' });
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [noRecords, setNoRecords] = useState(false); // To track when no records are found
+  const [noRecords, setNoRecords] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -33,9 +33,9 @@ const UserList = () => {
         throw new Error('Network response was not ok.');
       })
       .then(data => {
-        setUsers(data.users); // Assuming the API returns an object with a users array
-        setTotalPages(data.totalPages); // Assuming the API returns total pages
-        setNoRecords(data.users.length === 0); // Set noRecords to true if no data is returned
+        setUsers(data.users);
+        setTotalPages(data.totalPages);
+        setNoRecords(data.users.length === 0);
       })
       .catch(error => {
         console.error('Error fetching users:', error);
@@ -44,8 +44,7 @@ const UserList = () => {
 
   useEffect(() => {
     fetchUsers(searchQuery, currentPage);
-  }, []); // Fetch users whenever currentPage or searchQuery changes
-
+  }, []);
   const handleDeleteClick = (userId) => {
     setSelectedUserId(userId);
     setShowModal(true);
@@ -59,7 +58,7 @@ const UserList = () => {
       })
         .then(response => {
           if (response.ok) {
-            fetchUsers(searchQuery, currentPage); // Refresh the user list after deletion
+            fetchUsers(searchQuery, currentPage);
           } else if (response.status === 401) {
             throw new Error('Unauthorized');
           } else {
@@ -82,7 +81,7 @@ const UserList = () => {
   };
 
   const handleSearchClick = () => {
-    setCurrentPage(1); // Reset to page 1 on new search
+    setCurrentPage(1);
     fetchUsers(searchQuery, 1);
   };
 

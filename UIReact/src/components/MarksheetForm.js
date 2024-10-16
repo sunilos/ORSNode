@@ -15,17 +15,16 @@ const MarksheetForm = () => {
   });
   const [studentNames, setStudentNames] = useState([]);
   const [message, setMessage] = useState('');
-  const [errors, setErrors] = useState({}); // State to hold validation errors
+  const [errors, setErrors] = useState({});
 
   const apiUrl = environment.apiUrl;
 
   useEffect(() => {
-    // Fetch student names from the server
+
     fetch(`${apiUrl}/api/student/prelod`, { credentials: 'include' })
       .then(response => response.json())
       .then(data => {
-        console.log(data); // Debugging line to see the API response
-        // Access the students array and map to get names
+        console.log(data);
         setStudentNames(data.students.map(student => student.name));
       })
       .catch(error => console.error('Error fetching student names:', error));
@@ -56,7 +55,6 @@ const MarksheetForm = () => {
       ...formData,
       [name]: value
     });
-    // Clear error for the changed field
     setErrors({
       ...errors,
       [name]: ''
@@ -67,19 +65,16 @@ const MarksheetForm = () => {
     let validationErrors = {};
     let isValid = true;
 
-    // Check if name is selected
     if (!formData.name) {
       validationErrors.name = 'Name is required.';
       isValid = false;
     }
 
-    // Check if rollNo is provided
     if (!formData.rollNo) {
       validationErrors.rollNo = 'Roll No is required.';
       isValid = false;
     }
 
-    // Check if marks are provided and are numbers
     if (!formData.physics || isNaN(formData.physics)) {
       validationErrors.physics = 'Valid Physics marks are required.';
       isValid = false;
@@ -101,7 +96,7 @@ const MarksheetForm = () => {
 
   const handleSubmit = () => {
     if (!validate()) {
-      return; // Stop submission if validation fails
+      return;
     }
 
     const url = id ? `${apiUrl}/api/marksheet/updateMarksheet/${id}` : `${apiUrl}/api/marksheet/addMarksheet`;
@@ -160,7 +155,7 @@ const MarksheetForm = () => {
           <div className="col-md-4">
             <div className="card" style={{ background: 'linear-gradient(to right, rgba(0, 198, 255, 0.8), rgba(0, 114, 255, 0.8))' }}>
               <div className="card-body">
-                <h2 className="card-title text-center">{id ? 'Edit Marksheet' : 'Add Marksheet'}</h2>
+                <h2 className="card-title text-center">{id ? 'Update Marksheet' : 'Add Marksheet'}</h2>
                 {message && <div className="alert alert-info">{message}</div>}
                 <form>
                   <div className="form-group">

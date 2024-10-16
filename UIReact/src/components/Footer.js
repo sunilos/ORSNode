@@ -6,8 +6,8 @@ const Footer = () => {
         <footer
             style={{
                 background: 'linear-gradient(to bottom right, grey, black)',
-                color: 'white', // Changed to 'white' for better visibility
-                padding: '-5px', // Reduced padding for lower height
+                color: 'white',
+                padding: '-5px',
                 textAlign: 'center',
                 position: 'fixed',
                 bottom: 0,
@@ -16,7 +16,6 @@ const Footer = () => {
         >
             <div>
                 <p>&copy; {new Date().getFullYear()} Copyrights RAYS Technologies</p>
-
             </div>
         </footer>
     );

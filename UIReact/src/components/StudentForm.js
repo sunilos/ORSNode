@@ -124,13 +124,13 @@ const StudentForm = () => {
             gender: ''
           });
           setMessage(data.message);
-          setShowMessage(true); // Ensure message is shown
+          setShowMessage(true);
           navigate('/studentList');
         })
         .catch(error => {
           console.error('Error submitting form:', error);
           setMessage(error.message);
-          setShowMessage(true); // Ensure message is shown
+          setShowMessage(true);
         });
     }
   };
@@ -158,7 +158,7 @@ const StudentForm = () => {
           <div className="col-md-4">
             <div className="card" style={{ background: 'linear-gradient(to right, #00c6ff, #0072ff)' }}>
               <div className="card-body">
-                <h2 className="card-title text-center">{id ? 'Edit Student' : 'Add Student'}</h2>
+                <h2 className="card-title text-center">{id ? 'Update Student' : 'Add Student'}</h2>
                 {showMessage && message && (
                   <div className="alert alert-info alert-dismissible fade show" role="alert">
                     {message}
