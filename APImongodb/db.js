@@ -1,6 +1,6 @@
+{/* mongoose.connect('mongodb://mongo:27017/testexpress', */ }
 const mongoose = require('mongoose');
 
-// Connect to MongoDB using 127.0.0.1 instead of localhost
 mongoose.connect('mongodb://127.0.0.1:27017/testexpress', {
     useNewUrlParser: true,
     useUnifiedTopology: true

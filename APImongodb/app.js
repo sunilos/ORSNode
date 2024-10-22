@@ -3,9 +3,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
 const db = require('./db');
-const userRoute = require('./controller/userController');
-const marksheetRoute = require('./controller/marksheetController');
-const studentRoute = require('./controller/studentController');
+const userRoute = require('./controller/user-controller');
+const marksheetRoute = require('./controller/marksheet-controller');
+const studentRoute = require('./controller/student-controller');
 
 const app = express();
 
@@ -36,8 +36,8 @@ app.use('/api/user', userRoute);
 app.use('/api/marksheet', marksheetRoute);
 app.use('/api/student', studentRoute);
 
-const port = 5000;
+const PORT = 5000;
 
-app.listen(port, () => {
-    console.log("Server is running on: http://localhost:" + port);
+app.listen(PORT, () => {
+    console.log("Server is running on: http://localhost:" + PORT);
 });
